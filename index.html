@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic&display=swap"
         rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.min.js" defer></script>
@@ -21,49 +22,66 @@
     <p class="lead">恐竜博士への道！君はいくつわかるかな？</p>
 
     <div class="quiz-container">
+        <!-- スタート画面 -->
         <div id="quiz-start" class="quiz-start">
             <button id="quiz-start-btn" class="quiz-start-btn">スタート</button>
         </div>
 
+        <!-- 結果画面 -->
         <div id="quiz-result" class="quiz-result">
             <p class="result-lead">あなたの成績</p>
             <div class="result-content">
-                <div class="result-box">
-                    <span id="score" class="score"></span>
-                </div>
-                <div class="result-box">
+                <dl class="result-box">
+                    <dt>スコア</dt>
+                    <dd>
+                        <span id="score" class="score"></span>
+                    </dd>
+                </dl>
+                <dl class="result-box">
+                    <dt>正答率</dt>
+                    <dd>
                     <span id="accuracy" class="accuracy"></span> %
-                </div>
+                    </dd>
+                </dl>
             </div>
             <div>
                 <button id="start-over" class="start-over" type="button">もう一度トライする</button>
             </div>
         </div>
 
+        <!-- プログレスバーと 問題番号/問題数 の表示 -->
         <div class="progress-container">
             <div class="progress-bar">
                 <div id="progress-fill" class="progress-fill"></div>
             </div>
-            <div class="progress-text" id="progress-text">
-                1/5
-            </div>
+            <div class="progress-text" id="progress-text"></div>
         </div>
 
+        <!-- 問題番号と問題文 -->
         <div class="question-space">
             <p class="question-label">問題 <span id="question-num" class="question-num"></span></p>
-            <p id="question" class="question">問題はここへ</p>
+            <p id="question" class="question"></p>
         </div>
 
+        <!-- 選択肢 -->
         <div class="choices-space">
-            <label><input type="radio" name="choice" value="a" disabled> <span id="choice-a" class="choice-text">選択肢1</span></label>
-            <label><input type="radio" name="choice" value="b" disabled> <span id="choice-b" class="choice-text">選択肢2</span></label>
-            <label><input type="radio" name="choice" value="c" disabled> <span id="choice-c" class="choice-text">選択肢3</span></label>
+            <label>
+                <input type="radio" name="choice" value="a" disabled> <span id="choice-a" class="choice-text"></span>
+            </label>
+            <label>
+                <input type="radio" name="choice" value="b" disabled> <span id="choice-b" class="choice-text"></span>
+            </label>
+            <label>
+                <input type="radio" name="choice" value="c" disabled> <span id="choice-c" class="choice-text"></span>
+            </label>
         </div>
 
+        <!-- 解説 -->
         <div class="explanation-space" id="explanation-space">
-            <p id="explanation" class="explanation">解説がここに表示されます</p>
+            <p id="explanation" class="explanation"></p>
         </div>
 
+        <!-- ヒント -->
         <div class="hint-space">
             <dl class="hint-list">
                 <dt>ヒント: </dt>
@@ -71,11 +89,13 @@
             </dl>
         </div>
 
+        <!-- ボタンエリア -->
         <div class="button-space">
             <button id="check-answer" class="quiz-btn quiz-btn--check" disabled>答え合わせ</button>
             <button id="next-question" class="quiz-btn quiz-btn--next" disabled>次の問題へ</button>
             <button id="check-result" class="quiz-btn quiz-btn--result" disabled>結果を見る</button>
         </div>
+
     </div>
 
 </body>

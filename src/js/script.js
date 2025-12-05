@@ -166,10 +166,19 @@ function displayQuestion(index) {
 
     // 解説を非表示
     explanationSpace.classList.remove('is-shown');
-    
+
     // 答え合わせボタンを無効化
-    checkAnswerBtn.disabled = true;
+    // checkAnswerBtn.disabled = true;
 }
+
+// ラジオボタンの初期化処理（おまけ）
+// function resetChoiceInputs() {
+//     choiceInputs.forEach(input => {
+//         input.checked = false;
+//         input.disabled = false;
+//         input.classList.remove('correct', 'incorrect');
+//     });
+// }
 
 // 選択肢の変更を監視し、答え合わせボタンの状態を更新する関数
 choiceInputs.forEach(input => {
@@ -182,72 +191,100 @@ choiceInputs.forEach(input => {
 checkAnswerBtn.addEventListener('click', () => {
     const q = questions[currentQuestionIndex];
     const selectedInput = document.querySelector('input[name="choice"]:checked');
-    
-    // if (!selectedInput) return;
-    
+
     // 選択したボタンの値と正解の値を取得する
     const selectedValue = selectedInput.value;
     const correctValue = q.correct;
-    
-    // 正解の選択肢に correct クラスを付与
-    const correctInput = document.querySelector(`input[value="${correctValue}"]`);
-    correctInput.classList.add('correct');
-    
-    // 正解の場合は正解数を更新、間違いの場合は間違いの選択肢に incorrect クラスを付与
+
+    // 正誤判定
     if (selectedValue === correctValue) {
+        // 選択した選択肢が正解なので correct クラスを付与
+        selectedInput.classList.add('correct');
         correctAnswers++;
     } else {
+        // 正解の選択肢を取得し correct クラスを付与
+        const correctInput = document.querySelector(`input[value="${correctValue}"]`);
+        correctInput.classList.add('correct');
+
+        // 不正解の選択肢に incorrect クラスを付与
         selectedInput.classList.add('incorrect');
     }
-    
+
     // 解説を表示
     explanation.textContent = q.explanation;
     explanationSpace.classList.add('is-shown');
-    
+
     // 選択肢を無効化
     choiceInputs.forEach(input => {
         input.disabled = true;
     });
-    
+
     // 答え合わせボタンを無効化
     checkAnswerBtn.disabled = true;
-    
+
     // 最後の問題でない場合のみ次の問題ボタンを有効化
-    console.log('現在の問題番号', currentQuestionIndex);
     if (currentQuestionIndex < questions.length - 1) {
         nextQuestionBtn.disabled = false;
     } else {
-        console.log('last!')
         // 最後の問題の場合は結果を見るボタンを有効化し、表示させる
         checkResultBtn.disabled = false;
         checkResultBtn.classList.add('is-shown');
     }
 });
 
+
+
 // 次の問題へボタンのクリックイベント
 nextQuestionBtn.addEventListener('click', () => {
     // 選択肢のクラスをリセット
     choiceInputs.forEach(input => {
-        input.parentElement.classList.remove('correct', 'incorrect');
+        input.classList.remove('correct', 'incorrect');
     });
-    
+
     // 次の問題に進む(currentQuestionIndexをインクリメントし、displayQuestionを呼び出す)
     currentQuestionIndex++;
     displayQuestion(currentQuestionIndex);
-    
+
     // 次の問題ボタンを無効化
     nextQuestionBtn.disabled = true;
 });
 
 // 結果を見るボタンのクリックイベント
 checkResultBtn.addEventListener('click', () => {
+    // 選択肢のクラスとチェック状態をリセット
+    choiceInputs.forEach(input => {
+        input.classList.remove('correct', 'incorrect');
+        input.checked = false;
+    });
+
+    // 問題番号、問題文、選択肢、ヒントのテキストをクリア
+    questionNum.textContent = '';
+    question.textContent = '';
+    choiceA.textContent = '';
+    choiceB.textContent = '';
+    choiceC.textContent = '';
+    hint.textContent = '';
+
+    // プログレスバーとステップをリセット
+    currentQuestion.textContent = '';
+    progressFill.style.width = '0%';
+
+    // 解説を非表示
+    explanationSpace.classList.remove('is-shown');
+
+    // ボタンを初期状態に戻す
+    checkAnswerBtn.disabled = true;
+    nextQuestionBtn.disabled = true;
+    checkResultBtn.disabled = true;
+    checkResultBtn.classList.remove('is-shown');
+
     // 正答率を計算
     const accuracyRate = Math.round((correctAnswers / questions.length) * 100);
-    
+
     // スコアと正答率を表示
     score.textContent = `${correctAnswers}/${questions.length}`;
     accuracy.textContent = accuracyRate;
-    
+
     // 結果画面を表示
     quizResult.classList.add('is-shown');
 });
@@ -257,16 +294,11 @@ startOverBtn.addEventListener('click', () => {
     // 変数をリセット
     currentQuestionIndex = 0;
     correctAnswers = 0;
-    
+
     // 結果画面を非表示
     quizResult.classList.remove('is-shown');
-    
+
     // スタート画面を表示
     quizStart.classList.remove('is-started');
-    
-    // ボタンを初期状態に戻す
-    checkResultBtn.disabled = true;
-    checkResultBtn.classList.remove('is-shown');
-    nextQuestionBtn.disabled = true;
-    checkAnswerBtn.disabled = true;
+
 });

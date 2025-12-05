@@ -3,6 +3,7 @@
 :root {
     --primary-hue: 120;
     --primary-lightness: 0.5;
+    --primary-lightness-dark: 0.2;
     --primary-chroma: 0.2;
     --primary-alpha: 1;
     --primary-color: oklch(var(--primary-lightness) var(--primary-chroma) var(--primary-hue));
@@ -11,23 +12,35 @@
     --primary-color-hover: oklch(calc(var(--primary-lightness) + 0.1) var(--primary-chroma) var(--primary-hue));
     --primary-color-light: oklch(calc(var(--primary-lightness) + 0.2) var(--primary-chroma) var(--primary-hue));
     --primary-color-disabled: oklch(calc(var(--primary-lightness) - 0.2) calc(var(--primary-chroma) * 0.3) var(--primary-hue));
-    --check-color: oklch(0.6 0.2 350);
+    --check-color: oklch(0.7 0.3 350);
     --next-color: oklch(0.7 0.15 200);
     --result-color: oklch(0.7 0.25 50);
+    --correct-color: oklch(0.65 0.15 140);
+    --incorrect-color: oklch(0.6 0.2 20);
+    --button-color: oklch(0.7 0.2 120);
+    --button-color-hover: oklch(0.8 0.2 120);
     --font-heading: 'Dela Gothic One', sans-serif;
     --font-body: 'Zen Maru Gothic', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     font-family: var(--font-body);
     background: url(../images/pattern@2x.webp) repeat center top;
     line-height: 1.5;
-    padding: 0 1rem;
+    padding: 0 1rem 5rem;
 }
 
 @media screen and (min-width: 768px) {
     body {
-        padding: 0 1.5rem;
+        padding: 0 1.5rem 5rem;
     }
 }
 
@@ -70,7 +83,7 @@ h1 {
     right: 0;
     bottom: 0;
     border-radius: 1rem;
-    background: rgba(0, 0, 0, 0.7);
+    background: oklch(var(--primary-lightness-dark) var(--primary-chroma) var(--primary-hue) / .7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +104,7 @@ h1 {
 }
 
 .quiz-start-btn {
-    background: var(--primary-color);
+    background: var(--button-color);
     color: white;
     font-family: var(--font-heading);
     font-size: 2rem;
@@ -103,7 +116,7 @@ h1 {
 }
 
 .quiz-start-btn:hover {
-    background: var(--primary-color-hover);
+    background: var(--button-color-hover);
 }
 
 .quiz-start-btn:disabled {
@@ -138,14 +151,25 @@ h1 {
     gap: 1rem;
     width: 100%;
     max-width: 600px;
+    margin-block-end: 2rem;
+}
+
+.result-lead {
+    font-size: 1.5rem;
+    margin-block-end: 1em;
 }
 
 .result-box {
     border: 2px solid white;
     border-radius: 1rem;
-    padding: clamp(1rem,2vw,2rem);
+    padding-block: clamp(.8rem,2vw,1.2rem);
     flex: 1;
     text-align: center;
+}
+
+.result-box .score,
+.result-box .accuracy {
+    font-size: 3rem;
 }
 
 .progress-container {
@@ -167,6 +191,7 @@ h1 {
     height: 100%;
     background: var(--primary-color);
     transition: width 0.3s ease;
+    width: 0;
     /* width: 20%; */
 }
 
@@ -196,8 +221,13 @@ h1 {
     border-radius: 1rem;
 }
 
+.question {
+    font-size: 1.2rem;
+}
+
+
 .choices-space {
-    background: oklch(var(--primary-lightness) var(--primary-chroma) var(--primary-hue) / 0.8);
+    background: oklch(var(--primary-lightness) var(--primary-chroma) var(--primary-hue) / 0.5);
     border-radius: 1rem;
     padding: 1rem;
     display: flex;
@@ -208,27 +238,59 @@ h1 {
 .choices-space label {
     display: block;
     width: 100%;
-    padding: 0.75rem;
-    background: var(--primary-color-light);
-    color: white;
+    padding: 1rem;
+    background: white;
     border-radius: 0.5rem;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.question {
-    font-size: 1.2rem;
-}
 
 .choices-space input[type="radio"] {
-    width: 1rem;
-    height: 1rem;
-    accent-color: white;
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--primary-color);
     margin-right: 0.5rem;
+    outline: none;
 }
 
+.choices-space input[type="radio"]:disabled {
+    opacity: 0;
+}
+
+/* チェック時、正解、不正解のラベルのスタイル */
 .choices-space label:has(input[type="radio"]:checked) {
-    outline: 3px solid white;
-    outline-offset: 2px;
+    outline: 3px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+.choices-space label::before {
+    font-family: remixicon;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    translate: 0 -50%;
+    font-size: 32px;
+}
+
+.choices-space label:has(input[type="radio"].correct) {
+    outline: 3px solid var(--correct-color) !important;
+    outline-offset: -4px;
+}
+.choices-space label:has(input[type="radio"].correct)::before {
+    content: '\EB80';
+    color: var(--correct-color);
+}
+
+.choices-space label:has(input[type="radio"].incorrect) {
+    outline: 3px solid var(--incorrect-color) !important;
+    outline-offset: -4px;
+}
+.choices-space label:has(input[type="radio"].incorrect)::before {
+    content: '\EB96';
+    color: var(--incorrect-color);
 }
 
 .explanation-space {
@@ -306,4 +368,19 @@ h1 {
     background: var(--primary-color-disabled) !important;
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+.start-over {
+    background: var(--button-color);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.start-over:hover {
+    background: var(--button-color-hover);
 }
