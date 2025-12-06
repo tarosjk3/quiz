@@ -85,6 +85,7 @@ h1 {
     border-radius: 1rem;
     background: oklch(var(--primary-lightness-dark) var(--primary-chroma) var(--primary-hue) / .7);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 100;
@@ -112,7 +113,8 @@ h1 {
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: 0.2s ease;
+    
 }
 
 .quiz-start-btn:hover {
@@ -124,12 +126,45 @@ h1 {
     cursor: not-allowed;
     opacity: 0.7;
 }
+.quiz-start-btn.is-hidden {
+    display: none;
+}
+
+
+/* ローディング */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 1.25rem;
+}
+.loading.is-hidden {
+    display: none;
+}
+
+.loading-dino {
+    width: clamp(80px, 2vw, 120px);
+    /* margin-block-end: 1rem; */
+    animation: bounce 1s infinite;
+}
+.loading-dino img {
+    width: 100%;
+}
+@keyframes bounce {
+    0% ,75%, 100% {
+        transform: translateY(0);
+    }
+    30%, 40% {
+        transform: translateY(-40%);
+    }
+    
+}
 
 /* 結果 */
 .quiz-result {
     opacity: 0;
     display: none;
-    flex-direction: column;
     color: #fff;
     padding: 2rem;
 }

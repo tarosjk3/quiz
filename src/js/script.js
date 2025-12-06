@@ -15,6 +15,9 @@ const quizStartBtn = document.querySelector('#quiz-start-btn');
 // スタートオーバーレイ
 const quizStart = document.querySelector('#quiz-start');
 
+// ローディング
+const loading = document.querySelector('#loading');
+
 // プログレスバー
 const progressFill = document.querySelector('#progress-fill');
 
@@ -147,10 +150,17 @@ let correctAnswers = 0;
 
 // スタートボタンとクイズ初期化処理
 quizStartBtn.addEventListener('click', async () => {
-    console.log('start')
+    // スタートボタンを無効化（連続クリック防止）
+    quizStartBtn.disabled = true;
+    quizStartBtn.classList.add('is-hidden');
+
+    // ローディングを表示
+    loading.classList.remove('is-hidden');
+    
     // Airtableから問題を取得
     questions = await fetchQuestionsFromAirtable();
     
+    console.log(questions)
     
     // データ取得に失敗した場合はフォールバックデータを使用
     if (questions.length === 0) {
@@ -161,6 +171,11 @@ quizStartBtn.addEventListener('click', async () => {
     if (questions.length > 0) {
         quizStart.classList.add('is-started');
         displayQuestion(currentQuestionIndex);
+
+        // ローディングは隠しておく
+        setTimeout(() => {
+            loading.classList.add('is-hidden');
+        }, 1000);
     } else {
         alert('問題データがありません');
     }

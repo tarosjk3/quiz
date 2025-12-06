@@ -20,19 +20,21 @@ export async function fetchQuestionsFromAirtable() {
         }
         
         const data = await response.json();
+
+        // console.log(data)
         
         // Airtableのデータを既存の形式に変換
-        return data.records.map(record => ({
-            id: record.fields.id,
-            question: record.fields.question,
+        return data.records.map((record, index) => ({
+            id: index + 1, // 連番でIDを付与
+            question: record.fields['Question'],
             choices: {
-                a: record.fields.choice_a,
-                b: record.fields.choice_b,
-                c: record.fields.choice_c
+                a: record.fields['Choice A'],
+                b: record.fields['Choice B'],
+                c: record.fields['Choice C']
             },
-            correct: record.fields.correct,
-            explanation: record.fields.explanation,
-            hint: record.fields.hint
+            correct: record.fields['Correct Answer'].toLowerCase(), // B -> b
+            explanation: record.fields['Explanation'],
+            hint: record.fields['Hint']
         }));
     } catch (error) {
         console.error('Airtableデータ取得エラー:', error);
