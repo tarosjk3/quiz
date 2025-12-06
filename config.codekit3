@@ -31,6 +31,56 @@
       "oO" : 1,
       "oS" : 1
     },
+    "\/dist.zip" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/dist.zip",
+      "oF" : 0
+    },
+    "\/dist\/css\/style.css" : {
+      "aP" : 1,
+      "bl" : 0,
+      "ci" : 0,
+      "co" : 0,
+      "ft" : 16,
+      "ma" : 0,
+      "oA" : 0,
+      "oAP" : "\/dist\/css\/style-min.css",
+      "oF" : 0,
+      "pg" : 0
+    },
+    "\/dist\/images\/pattern@2x.webp" : {
+      "ft" : 8388608,
+      "iS" : 34150,
+      "oA" : 0,
+      "oAP" : "\/dist\/images\/pattern@2x.webp",
+      "oF" : 0,
+      "oIPL" : 0,
+      "opt" : 0,
+      "ou" : "lpckwebp-default",
+      "rq" : 75
+    },
+    "\/dist\/index.html" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/dist\/index.html",
+      "oF" : 0
+    },
+    "\/dist\/js\/script.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/dist\/js\/script-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/images" : {
       "ft" : 65536,
       "oA" : 1,
@@ -384,7 +434,7 @@
       "NODE_ENV:::production"
     ],
     "esLintConfigFileHandlingType" : 0,
-    "esLintECMAVersion" : 7,
+    "esLintECMAVersion" : 11,
     "esLintEnvironmentsMask" : 1,
     "esLintRules" : {
       "accessor-pairs" : {

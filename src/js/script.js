@@ -1,5 +1,12 @@
 /**
  * ===========================
+ * インポート
+ */
+import { fetchQuestionsFromAirtable } from './airtable.js';
+
+console.log('started')
+/**
+ * ===========================
  * 各要素
  */
 // スタートボタン
@@ -55,9 +62,12 @@ const startOverBtn = document.querySelector('#start-over');
 
 /**
  * ===========================
- * 問題
+ * 問題データ（動的に取得）
  */
-const questions = [
+let questions = [];
+
+// 静的な問題データ（フォールバック用）
+const fallbackQuestions = [
     {
         id: 1,
         question: "大きくて強い肉食恐竜で、短い前あしが特徴的なのは次のうちどれでしょう？",
@@ -136,9 +146,24 @@ let correctAnswers = 0;
  */
 
 // スタートボタンとクイズ初期化処理
-quizStartBtn.addEventListener('click', () => {
-    quizStart.classList.add('is-started');
-    displayQuestion(currentQuestionIndex);
+quizStartBtn.addEventListener('click', async () => {
+    console.log('start')
+    // Airtableから問題を取得
+    questions = await fetchQuestionsFromAirtable();
+    
+    
+    // データ取得に失敗した場合はフォールバックデータを使用
+    if (questions.length === 0) {
+        questions = fallbackQuestions;
+        console.warn('Airtableからのデータ取得に失敗しました。フォールバックデータを使用します。');
+    }
+    
+    if (questions.length > 0) {
+        quizStart.classList.add('is-started');
+        displayQuestion(currentQuestionIndex);
+    } else {
+        alert('問題データがありません');
+    }
 });
 
 
