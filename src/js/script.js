@@ -2,7 +2,7 @@
  * ===========================
  * インポート
  */
-import { fetchQuestionsFromAirtable } from './airtable.js';
+// import { fetchQuestionsFromAirtable } from './airtable.js';
 
 console.log('started')
 /**
@@ -158,9 +158,8 @@ quizStartBtn.addEventListener('click', async () => {
     loading.classList.remove('is-hidden');
     
     // Airtableから問題を取得
-    questions = await fetchQuestionsFromAirtable();
+    // questions = await fetchQuestionsFromAirtable();
     
-    console.log(questions)
     
     // データ取得に失敗した場合はフォールバックデータを使用
     if (questions.length === 0) {
@@ -168,6 +167,7 @@ quizStartBtn.addEventListener('click', async () => {
         console.warn('Airtableからのデータ取得に失敗しました。フォールバックデータを使用します。');
     }
     
+    console.log(questions)
     if (questions.length > 0) {
         quizStart.classList.add('is-started');
         displayQuestion(currentQuestionIndex);
