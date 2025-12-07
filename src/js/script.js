@@ -340,5 +340,8 @@ startOverBtn.addEventListener('click', () => {
 
     // スタート画面を表示
     quizStart.classList.remove('is-started');
+    // スタートボタンを表示
+    quizStartBtn.disabled = false;
+    quizStartBtn.classList.remove('is-hidden');
 
 });
